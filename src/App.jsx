@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-// Injection of clean structural font and core theme engine assets
+// Premium typography engine setup
 if (!document.getElementById('theme-assets')) {
   const linkFont = document.createElement('link');
   linkFont.rel = 'stylesheet';
-  linkFont.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap';
+  linkFont.href = 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap';
   document.head.appendChild(linkFont);
 
   const tailwindScript = document.createElement('script');
@@ -14,46 +14,40 @@ if (!document.getElementById('theme-assets')) {
 }
 
 export default function App() {
-  // Primary Transactions State
   const [transactions, setTransactions] = useState(() => {
-    const saved = localStorage.getItem('premium_ledger_v2');
+    const saved = localStorage.getItem('premium_ledger_v3');
     return saved ? JSON.parse(saved) : [
-      { id: 1, text: 'Enterprise Retainer Credit', amount: 6500, type: 'income', category: 'Salary', date: '2026-06-01' },
-      { id: 2, text: 'Hardware Infrastructure Procurement', amount: 420.50, type: 'expense', category: 'Shopping', date: '2026-06-12' },
-      { id: 3, text: 'Distributed Database Cluster Host', amount: 115.00, type: 'expense', category: 'Utilities', date: '2026-06-18' },
-      { id: 4, text: 'Client Advisory Luncheon', amount: 85.00, type: 'expense', category: 'Food', date: '2026-06-20' }
+      { id: 1, text: 'Project Milestone Payment', amount: 6500, type: 'income', category: 'Salary', date: '2026-06-01' },
+      { id: 2, text: 'Server Infrastructure Infrastructure', amount: 420.50, type: 'expense', category: 'Utilities', date: '2026-06-12' },
+      { id: 3, text: 'Office Hardware Logistics', amount: 115.00, type: 'expense', category: 'Shopping', date: '2026-06-18' },
+      { id: 4, text: 'Client Premium Dinner', amount: 85.00, type: 'expense', category: 'Food', date: '2026-06-20' }
     ];
   });
 
-  // Savings Allocation Engine States
-  const [savingsGoal, setSavingsGoal] = useState(() => parseFloat(localStorage.getItem('savings_target') || '10000'));
-  const [savingsCurrent, setSavingsCurrent] = useState(() => parseFloat(localStorage.getItem('savings_saved') || '3450'));
+  const [savingsGoal, setSavingsGoal] = useState(() => parseFloat(localStorage.getItem('savings_target_v3') || '10000'));
+  const [savingsCurrent, setSavingsCurrent] = useState(() => parseFloat(localStorage.getItem('savings_saved_v3') || '3450'));
   const [goalInput, setGoalInput] = useState('');
   const [depositInput, setDepositInput] = useState('');
 
-  // Transaction Input Buffer States
   const [text, setText] = useState('');
   const [amount, setAmount] = useState('');
   const [type, setType] = useState('expense');
   const [category, setCategory] = useState('Food');
 
-  // Persistence Matrix
   useEffect(() => {
-    localStorage.setItem('premium_ledger_v2', JSON.stringify(transactions));
+    localStorage.setItem('premium_ledger_v3', JSON.stringify(transactions));
   }, [transactions]);
 
   useEffect(() => {
-    localStorage.setItem('savings_target', savingsGoal.toString());
-    localStorage.setItem('savings_saved', savingsCurrent.toString());
+    localStorage.setItem('savings_target_v3', savingsGoal.toString());
+    localStorage.setItem('savings_saved_v3', savingsCurrent.toString());
   }, [savingsGoal, savingsCurrent]);
 
-  // Quantitative Financial Engineering Analytics
   const amounts = transactions.map(t => t.type === 'income' ? t.amount : -t.amount);
   const totalBalance = amounts.reduce((acc, item) => acc + item, 0);
   const totalIncome = amounts.filter(item => item > 0).reduce((acc, item) => acc + item, 0);
   const totalExpense = amounts.filter(item => item < 0).reduce((acc, item) => acc + item, 0) * -1;
 
-  // Structural Category Breakdown Vector
   const categoryTotals = transactions
     .filter(t => t.type === 'expense')
     .reduce((acc, t) => {
@@ -100,199 +94,177 @@ export default function App() {
   const savingsProgressPercentage = savingsGoal > 0 ? ((savingsCurrent / savingsGoal) * 100).toFixed(1) : 0;
 
   return (
-    <div className="min-h-screen bg-[#070809] text-[#D1D4DC] font-['Inter',sans-serif] flex flex-col md:flex-row antialiased">
-      
-      {/* MINIMALIST SIDEBAR ARCHITECTURE */}
-      <aside className="w-full md:w-64 bg-[#0E1013] border-b md:border-b-0 md:border-r border-[#1B1E22] p-6 flex flex-col justify-between shrink-0">
-        <div>
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center font-mono font-bold text-black text-sm select-none">FT</div>
-            <span className="text-sm font-bold tracking-[0.15em] text-white uppercase font-mono">FINTRACK MACRO</span>
-          </div>
-          
-          <nav className="space-y-1">
-            {['Terminal', 'Analytics', 'Ledger', 'Vaults', 'System Configurations'].map((item, index) => (
-              <div key={item} className={`px-3 py-2.5 rounded-md text-xs font-medium tracking-wide transition select-none ${index === 0 ? 'bg-[#171A1F] text-white' : 'text-[#7A8294] hover:text-white hover:bg-[#121418]'}`}>
-                {item}
-              </div>
-            ))}
-          </nav>
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-[#1B1E22] hidden md:block">
-          <div className="flex items-center gap-2 text-[10px] font-mono tracking-wider text-[#525966]">
-            <span className="w-1.5 h-1.5 rounded-full bg-white opacity-40 animate-pulse"></span>
-            SECURE ENGINE v2.6.1
-          </div>
-        </div>
-      </aside>
-
-      {/* CORE WORKSPACE ENVIRONMENT */}
-      <main className="flex-1 p-6 md:p-10 space-y-8 overflow-x-hidden">
+    <div className="min-h-screen bg-[#090A0F] text-[#F3F4F6] font-['Plus_Jakarta_Sans',sans-serif] p-4 md:p-8 antialiased">
+      <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* STRUCTURAL ADMINISTRATIVE CONTROL HEADER */}
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#1B1E22]">
-          <div>
-            <div className="text-[11px] font-mono tracking-[0.2em] text-[#7A8294] uppercase">Account Operations Workspace</div>
-            <h1 className="text-xl font-bold text-white tracking-tight mt-1">System Controller Ledger</h1>
+        {/* PREMIUM GLOBAL NAVBAR */}
+        <header className="bg-[#121420]/80 backdrop-blur-md p-6 rounded-2xl border border-[#23273B] flex items-center justify-between gap-4 shadow-xl">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+              𝘍
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-white tracking-tight">FinTrack Pro</h1>
+              <p className="text-xs text-[#8A94A6] font-medium">Personal Finance Portfolio</p>
+            </div>
           </div>
           
-          {/* USER PROFILE CONTEXT COMPONENT */}
-          <div className="flex items-center gap-4 bg-[#0E1013] border border-[#1B1E22] pl-4 pr-3 py-2 rounded-xl">
+          <div className="flex items-center gap-4">
             <div className="text-right">
-              <div className="text-xs font-bold text-white">Harjeet</div>
-              <div className="text-[10px] font-mono tracking-wide text-[#7A8294] mt-0.5">ADMIN SECURITY CLEARANCE</div>
+              <div className="text-sm font-bold text-white">Harjeet</div>
+              <div className="text-[11px] font-medium text-violet-400">Premium Controller Account</div>
             </div>
-            <div className="w-9 h-9 rounded-lg bg-[#1D2127] border border-[#2B313A] flex items-center justify-center font-mono text-xs font-bold text-white select-none">
-              HJ
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-600 p-[1px]">
+              <div className="w-full h-full bg-[#121420] rounded-[11px] flex items-center justify-center font-bold text-xs text-white">
+                HJ
+              </div>
             </div>
           </div>
         </header>
 
-        {/* METRICS DISPATCH VECTOR PANELS */}
+        {/* HIGH CONTRAST BALANCES PANEL */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22]">
-            <span className="text-[10px] font-mono font-medium tracking-[0.15em] text-[#7A8294] uppercase">Net Asset Balance</span>
-            <div className="text-2xl font-semibold text-white tracking-tight font-mono mt-2">${totalBalance.toFixed(2)}</div>
+          <div className="bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl"></div>
+            <span className="text-xs font-semibold text-[#8A94A6] tracking-wide uppercase">Net Holdings Position</span>
+            <div className="text-3xl font-bold text-white tracking-tight mt-2">${totalBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
           </div>
-          <div className="bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22]">
-            <span className="text-[10px] font-mono font-medium tracking-[0.15em] text-[#7A8294] uppercase">Inflow Stream Volumetrics</span>
-            <div className="text-2xl font-semibold text-white tracking-tight font-mono mt-2">${totalIncome.toFixed(2)}</div>
+          <div className="bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl"></div>
+            <span className="text-xs font-semibold text-[#8A94A6] tracking-wide uppercase">Gross Monthly Inflow</span>
+            <div className="text-3xl font-bold text-emerald-400 tracking-tight mt-2">${totalIncome.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
           </div>
-          <div className="bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22]">
-            <span className="text-[10px] font-mono font-medium tracking-[0.15em] text-[#7A8294] uppercase">Outflow Volumetrics Layer</span>
-            <div className="text-2xl font-semibold text-white tracking-tight font-mono mt-2">${totalExpense.toFixed(2)}</div>
+          <div className="bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl"></div>
+            <span className="text-xs font-semibold text-[#8A94A6] tracking-wide uppercase">Gross Monthly Outflow</span>
+            <div className="text-3xl font-bold text-rose-400 tracking-tight mt-2">${totalExpense.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
           </div>
         </div>
 
-        {/* INTERACTIVE DATA CHARTS & GRAPH SECTIONS */}
+        {/* ANALYTICS CHARTS & VAULT INTERFACING CONTAINER */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* DATA TREND TELEMETRY CHART */}
-          <div className="lg:col-span-2 bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22] flex flex-col justify-between">
+          
+          {/* COLORED BAR CHART COMPONENT */}
+          <div className="lg:col-span-2 bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg flex flex-col justify-between">
             <div>
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-[11px] font-mono tracking-wider font-semibold text-white uppercase">Operational Cashflow Volumetrics</span>
-                <span className="text-[10px] font-mono text-[#7A8294]">NATIVE HISTOGRAM DEPLOYMENT</span>
-              </div>
-              <p className="text-xs text-[#7A8294] mb-6">Visual matrix comparing gross transaction values mapped chronologically.</p>
+              <span className="text-sm font-bold text-white tracking-tight">Financial Stream Volumetrics</span>
+              <p className="text-xs text-[#8A94A6] mt-1">Live data distribution representation mapping real-time operational flows.</p>
             </div>
             
-            {/* CLEAN EMBEDDED MICRO BAR GRAPH ENGINE */}
-            <div className="h-44 flex items-end gap-3 px-2 border-b border-l border-[#1B1E22] pb-2 pt-4">
+            <div className="h-48 flex items-end gap-6 px-4 border-b border-[#23273B] pb-3 pt-6 mt-6">
               <div className="flex-1 flex flex-col items-center h-full justify-end group">
-                <div className="w-full bg-[#1F242E] border border-[#303747] rounded-t transition-all group-hover:bg-white" style={{ height: totalIncome > 0 ? `${Math.max(10, (totalIncome / (totalIncome + totalExpense)) * 100)}%` : '10%' }}></div>
-                <span className="text-[9px] font-mono text-[#525966] mt-2">GROSS INFLOW</span>
+                <div className="w-full bg-gradient-to-t from-emerald-600 to-emerald-400 rounded-xl transition-all shadow-lg shadow-emerald-500/10 group-hover:brightness-110" style={{ height: totalIncome > 0 ? `${Math.max(15, (totalIncome / (totalIncome + totalExpense)) * 100)}%` : '15%' }}></div>
+                <span className="text-xs font-semibold text-[#8A94A6] mt-3">Gross Inflow</span>
               </div>
               <div className="flex-1 flex flex-col items-center h-full justify-end group">
-                <div className="w-full bg-[#261A1C] border border-[#402A2E] rounded-t transition-all group-hover:bg-white" style={{ height: totalExpense > 0 ? `${Math.max(10, (totalExpense / (totalIncome + totalExpense)) * 100)}%` : '10%' }}></div>
-                <span className="text-[9px] font-mono text-[#525966] mt-2">GROSS OUTFLOW</span>
+                <div className="w-full bg-gradient-to-t from-rose-600 to-rose-400 rounded-xl transition-all shadow-lg shadow-rose-500/10 group-hover:brightness-110" style={{ height: totalExpense > 0 ? `${Math.max(15, (totalExpense / (totalIncome + totalExpense)) * 100)}%` : '15%' }}></div>
+                <span className="text-xs font-semibold text-[#8A94A6] mt-3">Gross Outflow</span>
               </div>
               <div className="flex-1 flex flex-col items-center h-full justify-end group">
-                <div className="w-full bg-[#202226] border border-[#333740] rounded-t transition-all group-hover:bg-white" style={{ height: '45%' }}></div>
-                <span className="text-[9px] font-mono text-[#525966] mt-2">SYSTEM AVERAGE</span>
+                <div className="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-xl transition-all shadow-lg shadow-indigo-500/10 group-hover:brightness-110" style={{ height: '55%' }}></div>
+                <span className="text-xs font-semibold text-[#8A94A6] mt-3">System Median</span>
               </div>
             </div>
           </div>
 
-          {/* CAPITAL RESERVE VAULT (SAVINGS ALLOCATION ENGINE) */}
-          <div className="bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22] flex flex-col justify-between">
+          {/* CAPITAL VAULT RESERVES COMPONENT */}
+          <div className="bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg flex flex-col justify-between">
             <div>
-              <div className="text-[11px] font-mono tracking-wider font-semibold text-white uppercase mb-1">Capital Liquidity Reserve</div>
-              <p className="text-xs text-[#7A8294] mb-4">Strategic capital vault goals and velocity tracking vector maps.</p>
+              <span className="text-sm font-bold text-white tracking-tight">Active Capital Vault Reserves</span>
+              <p className="text-xs text-[#8A94A6] mt-1">Track asset allocation targets and liquidity progress bars.</p>
               
-              <div className="space-y-4 bg-[#070809] p-4 rounded-lg border border-[#1B1E22] font-mono">
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#7A8294]">Target Threshold:</span>
-                  <span className="text-white font-medium">${savingsGoal.toFixed(2)}</span>
+              <div className="space-y-4 bg-[#191D30] p-5 rounded-xl border border-[#2D3350] mt-5">
+                <div className="flex justify-between text-xs font-medium">
+                  <span className="text-[#8A94A6]">Target Goal:</span>
+                  <span className="text-white font-bold">${savingsGoal.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#7A8294]">Secured Liquidity:</span>
-                  <span className="text-white font-medium">${savingsCurrent.toFixed(2)}</span>
+                <div className="flex justify-between text-xs font-medium">
+                  <span className="text-[#8A94A6]">Secured Capital:</span>
+                  <span className="text-indigo-400 font-bold">${savingsCurrent.toLocaleString()}</span>
                 </div>
-                <div className="space-y-1 pt-1">
-                  <div className="w-full bg-[#121418] h-2 rounded-full overflow-hidden border border-[#1B1E22]">
-                    <div className="bg-white h-full transition-all duration-500" style={{ width: `${Math.min(100, parseFloat(savingsProgressPercentage))}%` }}></div>
+                <div className="space-y-2 pt-1">
+                  <div className="w-full bg-[#121420] h-2.5 rounded-full overflow-hidden p-[1px] border border-[#23273B]">
+                    <div className="bg-gradient-to-r from-violet-500 to-indigo-500 h-full rounded-full transition-all duration-500 shadow-md shadow-indigo-500/30" style={{ width: `${Math.min(100, parseFloat(savingsProgressPercentage))}%` }}></div>
                   </div>
-                  <div className="text-right text-[10px] text-[#7A8294] font-semibold">{savingsProgressPercentage}% Completed</div>
+                  <div className="text-right text-xs font-bold text-indigo-400">{savingsProgressPercentage}% Completed</div>
                 </div>
               </div>
             </div>
 
-            {/* INTEGRATED VAULT MANAGEMENT CONTROLS */}
             <div className="space-y-2 mt-4">
               <form onSubmit={handleAddDeposit} className="flex gap-2">
-                <input type="number" step="0.01" value={depositInput} onChange={(e) => setDepositInput(e.target.value)} placeholder="Deposit Amount ($)" className="flex-1 bg-[#070809] border border-[#1B1E22] rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-white placeholder-[#414754]"/>
-                <button type="submit" className="bg-[#171A1F] hover:bg-white text-white hover:text-black font-semibold text-xs px-3 rounded-lg transition border border-[#2B313A] cursor-pointer">Inject</button>
+                <input type="number" step="0.01" value={depositInput} onChange={(e) => setDepositInput(e.target.value)} placeholder="Deposit Amount ($)" className="flex-1 bg-[#191D30] border border-[#2D3350] rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 placeholder-[#525A6C] font-medium"/>
+                <button type="submit" className="bg-white text-[#090A0F] font-bold text-xs px-4 rounded-xl transition hover:bg-neutral-200 cursor-pointer">Inject</button>
               </form>
               <form onSubmit={handleUpdateGoal} className="flex gap-2">
-                <input type="number" step="0.01" value={goalInput} onChange={(e) => setGoalInput(e.target.value)} placeholder="Modify Strategy Target ($)" className="flex-1 bg-[#070809] border border-[#1B1E22] rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-white placeholder-[#414754]"/>
-                <button type="submit" className="bg-[#070809] hover:bg-white text-[#7A8294] hover:text-black font-semibold text-xs px-3 rounded-lg transition border border-[#1B1E22] cursor-pointer">Modify</button>
+                <input type="number" step="0.01" value={goalInput} onChange={(e) => setGoalInput(e.target.value)} placeholder="Update Vault Goal ($)" className="flex-1 bg-[#191D30] border border-[#2D3350] rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 placeholder-[#525A6C] font-medium"/>
+                <button type="submit" className="bg-[#121420] border border-[#23273B] text-white font-bold text-xs px-4 rounded-xl transition hover:bg-[#191D30] cursor-pointer">Modify</button>
               </form>
             </div>
           </div>
         </div>
 
-        {/* DATA UTILITY SYSTEM OPERATIONS CORE */}
+        {/* INPUT TRANSACTIONS & HISTORY SPLIT */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           
-          {/* TRANSACTION DISPATCH CONTROL COMPONENT */}
-          <div className="bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22] h-fit">
-            <h2 className="text-xs font-mono font-bold tracking-wider text-white uppercase mb-5">Deploy Ledger Modification</h2>
+          {/* LEDGER LOGGER FORM */}
+          <div className="bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg h-fit">
+            <h2 className="text-sm font-bold text-white tracking-tight mb-5">Commit Account Entry</h2>
             <form onSubmit={handleAddTransaction} className="space-y-4">
-              <div className="grid grid-cols-2 gap-2 p-1 bg-[#070809] rounded-lg border border-[#1B1E22]">
+              <div className="grid grid-cols-2 gap-2 p-1 bg-[#191D30] rounded-xl border border-[#2D3350]">
                 {['expense', 'income'].map(m => (
                   <button type="button" key={m} onClick={() => setType(m)} 
-                    className={`py-2 text-xs font-mono font-medium rounded transition capitalize ${type === m ? 'bg-[#171A1F] text-white border border-[#2B313A]' : 'text-[#7A8294] hover:text-white'}`}>{m}</button>
+                    className={`py-2 text-xs font-bold rounded-lg transition capitalize ${type === m ? 'bg-white text-[#090A0F] shadow-md' : 'text-[#8A94A6] hover:text-white'}`}>{m}</button>
                 ))}
               </div>
               
               <div className="space-y-1">
-                <label className="text-[10px] font-mono tracking-wider text-[#525966] uppercase">Descriptor Tag</label>
-                <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Allocation Reference Label" className="w-full bg-[#070809] border border-[#1B1E22] rounded-lg px-4 py-2.5 text-xs text-white placeholder-[#414754] focus:outline-none focus:border-white font-mono"/>
+                <label className="text-[11px] font-semibold text-[#8A94A6] tracking-wide uppercase">Reference Tag</label>
+                <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="e.g., Logistics Settlement" className="w-full bg-[#191D30] border border-[#2D3350] rounded-xl px-4 py-3 text-xs text-white placeholder-[#525A6C] focus:outline-none focus:border-indigo-500 font-medium"/>
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-mono tracking-wider text-[#525966] uppercase">Financial Valuation Matrix</label>
-                <input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00 USD" className="w-full bg-[#070809] border border-[#1B1E22] rounded-lg px-4 py-2.5 text-xs text-white placeholder-[#414754] focus:outline-none focus:border-white font-mono"/>
+                <label className="text-[11px] font-semibold text-[#8A94A6] tracking-wide uppercase">Asset Value (USD)</label>
+                <input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00" className="w-full bg-[#191D30] border border-[#2D3350] rounded-xl px-4 py-3 text-xs text-white placeholder-[#525A6C] focus:outline-none focus:border-indigo-500 font-medium"/>
               </div>
 
               {type === 'expense' && (
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono tracking-wider text-[#525966] uppercase">System Overhead Domain Mapping</label>
-                  <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full bg-[#070809] border border-[#1B1E22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white font-mono">
+                  <label className="text-[11px] font-semibold text-[#8A94A6] tracking-wide uppercase">Category Dimension</label>
+                  <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full bg-[#191D30] border border-[#2D3350] rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-indigo-500 font-medium">
                     {['Food', 'Utilities', 'Transportation', 'Entertainment', 'Shopping', 'Other'].map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
               )}
               
-              <button type="submit" className="w-full bg-white text-black font-semibold py-3 rounded-lg transition hover:bg-[#D1D4DC] cursor-pointer text-xs uppercase tracking-wider font-mono">Commit Block Entry</button>
+              <button type="submit" className="w-full bg-[#090A0F] hover:bg-white text-white hover:text-black font-bold py-3.5 rounded-xl transition border border-[#23273B] cursor-pointer text-xs uppercase tracking-wider mt-2">Commit Entry</button>
             </form>
           </div>
 
-          {/* CHRONOLOGICAL DATA MATRIX LOG FILE */}
+          {/* CHRONOLOGICAL ACCOUNT TRANSACTIONS LISTING */}
           <div className="xl:col-span-2">
-            <div className="bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22] h-full flex flex-col">
+            <div className="bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg h-full flex flex-col">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xs font-mono font-bold tracking-wider text-white uppercase">System Ledger Registry</h2>
-                <span className="text-[10px] font-mono text-[#525966]">REALTIME HISTORICAL STACK</span>
+                <h2 className="text-sm font-bold text-white tracking-tight">Chronological Ledger Records</h2>
+                <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 px-2 py-0.5 rounded-md">LIVE RELEASES</span>
               </div>
 
-              <div className="space-y-2 flex-1 overflow-y-auto max-h-[460px] pr-1">
+              <div className="space-y-2.5 flex-1 overflow-y-auto max-h-[460px] pr-1">
                 {transactions.length === 0 ? (
-                  <div className="text-center py-12 text-[#525966] border border-dashed border-[#1B1E22] rounded-lg text-xs font-mono">Zero entry events registered in this system frame.</div>
+                  <div className="text-center py-12 text-[#525A6C] border border-dashed border-[#23273B] rounded-xl text-xs font-medium">Zero activity registered inside this frame.</div>
                 ) : (
                   transactions.map((t) => (
-                    <div key={t.id} className="flex items-center justify-between p-4 bg-[#070809]/40 hover:bg-[#070809] rounded-lg border border-[#1B1E22] transition group">
+                    <div key={t.id} className="flex items-center justify-between p-4 bg-[#191D30]/30 hover:bg-[#191D30]/70 rounded-xl border border-[#23273B] transition group">
                       <div className="flex items-center gap-4">
-                        <div className={`w-1 h-6 rounded-full ${t.type === 'income' ? 'bg-white opacity-60' : 'bg-[#3B3E45]'}`} />
+                        <div className={`w-1.5 h-6 rounded-full ${t.type === 'income' ? 'bg-emerald-400 shadow-md shadow-emerald-500/20' : 'bg-rose-400 shadow-md shadow-rose-500/20'}`} />
                         <div>
-                          <p className="text-xs font-semibold text-white tracking-tight">{t.text}</p>
-                          <p className="text-[10px] font-mono text-[#7A8294] mt-0.5">{t.category.toUpperCase()} • {t.date}</p>
+                          <p className="text-xs font-bold text-white tracking-tight">{t.text}</p>
+                          <p className="text-[11px] font-medium text-[#8A94A6] mt-0.5">{c => c.toUpperCase()} {t.category} • {t.date}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-5">
-                        <span className="text-xs font-mono font-semibold text-white">{t.type === 'income' ? '+' : '-'}${t.amount.toFixed(2)}</span>
-                        <button onClick={() => handleDeleteTransaction(t.id)} className="text-[#414754] hover:text-white transition text-xs cursor-pointer p-1" title="Delete block instance">✕</button>
+                        <span className={`text-xs font-bold ${t.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}`}>{t.type === 'income' ? '+' : '-'}${t.amount.toFixed(2)}</span>
+                        <button onClick={() => handleDeleteTransaction(t.id)} className="text-[#525A6C] hover:text-rose-400 transition text-sm cursor-pointer p-1">✕</button>
                       </div>
                     </div>
                   ))
@@ -302,25 +274,25 @@ export default function App() {
           </div>
         </div>
         
-        {/* STRUCTURAL OVERHEAD OVERVIEW SUMMARY MATRIX */}
-        <div className="bg-[#0E1013] p-6 rounded-xl border border-[#1B1E22]">
-          <h2 className="text-xs font-mono font-bold tracking-wider text-white uppercase mb-5">System Resource Structural Burden Breakdown</h2>
+        {/* STRUCTURAL CATEGORICAL MATRIX */}
+        <div className="bg-[#121420] p-6 rounded-2xl border border-[#23273B] shadow-lg">
+          <h2 className="text-sm font-bold text-white tracking-tight mb-5">Categorical Expenditure Allocation Density</h2>
           {Object.keys(categoryTotals).length === 0 ? (
-            <p className="text-xs font-mono text-[#525966] italic">Awaiting overhead transaction logs to populate matrix maps.</p>
+            <p className="text-xs text-[#525A6C] font-medium">Log outlays to populate analytical tracking parameters.</p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               {Object.entries(categoryTotals).map(([cat, amt]) => {
                 const percentage = totalExpense > 0 ? ((amt / totalExpense) * 100).toFixed(0) : 0;
                 return (
-                  <div key={cat} className="bg-[#070809]/50 p-4 rounded-lg border border-[#1B1E22] space-y-2">
-                    <div className="flex items-center justify-between text-[10px] font-mono">
-                      <span className="font-semibold text-white uppercase">{cat}</span>
-                      <span className="text-[#7A8294]">{percentage}%</span>
+                  <div key={cat} className="bg-[#191D30]/40 p-4 rounded-xl border border-[#23273B] space-y-2">
+                    <div className="flex items-center justify-between text-xs font-semibold">
+                      <span className="text-[#8A94A6]">{cat}</span>
+                      <span className="text-white">{percentage}%</span>
                     </div>
-                    <div className="w-full bg-[#121418] h-1 rounded-full overflow-hidden border border-[#1B1E22]">
-                      <div className="bg-white h-full opacity-80" style={{ width: `${percentage}%` }}/>
+                    <div className="w-full bg-[#121420] h-1.5 rounded-full overflow-hidden border border-[#23273B]">
+                      <div className="bg-gradient-to-r from-violet-500 to-indigo-500 h-full" style={{ width: `${percentage}%` }}/>
                     </div>
-                    <p className="text-sm font-semibold text-white font-mono tracking-tight">${amt.toFixed(2)}</p>
+                    <p className="text-sm font-bold text-white tracking-tight">${amt.toFixed(2)}</p>
                   </div>
                 );
               })}
@@ -328,7 +300,7 @@ export default function App() {
           )}
         </div>
 
-      </main>
+      </div>
     </div>
   );
 }
